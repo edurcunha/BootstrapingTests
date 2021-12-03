@@ -47,8 +47,5 @@ bdt <- function(x, y, ...) {
   return(result)
   
 }
-  
 
-
-
-
+# Comment
