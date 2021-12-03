@@ -22,7 +22,8 @@ y <- c( rnorm(20, 3, 1), rnorm(20, 6, 1) )
 x <- as.factor( rep( LETTERS[1:2], each = 20 ) )
 
 # Run the bootstrapped difference test (bdt)
-difference.test <- bdt(x, y, rand = 999999, two.tail = TRUE )
+difference.test <- bdt(x, y, rand = 99999, two.tail = TRUE )
+difference.test
 
 # Explore the outputs
 difference.test$statistic    # Gives the the mean difference between categories.

@@ -6,7 +6,7 @@
 #                        between two treatments.
 
 #  ARGUMENTS
-# x: a factor vector containing the categories of the data values.
+# x: a factor vector containing the categories of data values.
 # y: a numeric vector of data values.
 # rand: A number indicating the number of random samples for calculating the 
 #       difference in data values between two categories.        
@@ -21,12 +21,17 @@ bdt <- function(x, y, ...) {
   stopifnot( length( levels(x) ) == 2 , all( table(x) > 0 ), is.numeric(y),
              length(x) == length(y))
   
-  ext.args <- list(rand = 999, two.tail = TRUE)
-  names.ext.args <- names(ext.args)
-  ellips <- list(...)
-  names.ellips <- names(ellips)
-  ext.args[ names.ext.args %in% names.ellips ] <- 
-    ellips[ names.ext.args[ names.ext.args %in% names.ellips ] ]
+  ext.args <- list(
+    rand = 99999, 
+    two.tail = TRUE
+    )
+  
+  ellipsis <- list(...)
+  
+  args.repl <- names(ext.args) %in% names(ellipsis)
+  
+  ext.args[args.repl] <- ellipsis[ names(ext.args)[args.repl] ] 
+  
 
   g.mean <- unlist( by(y, x, median, simplify = FALSE) )
   g.lev <- names(g.mean)[ order(g.mean, decreasing = TRUE) ]
@@ -35,8 +40,8 @@ bdt <- function(x, y, ...) {
   g1 <- y[ x == g.lev[1] ] 
   g2 <- y[ x == g.lev[2] ] 
   
-  r1 <- sample(g1, ext.args[['rand']], replace = TRUE) 
-  r2 <- sample(g2, ext.args[['rand']], replace = TRUE) 
+  r1 <- sample(g1, ext.args[['rand']] * max(g.n), replace = TRUE) 
+  r2 <- sample(g2, ext.args[['rand']] * max(g.n), replace = TRUE) 
   
   g.diff <- r1 - r2
   mean.g.diff <- mean(g.diff)
@@ -47,8 +52,5 @@ bdt <- function(x, y, ...) {
   return(result)
   
 }
-  
 
-
-
-
+# Comment
