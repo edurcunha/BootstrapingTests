@@ -6,3 +6,4 @@
 #               conventional statistical analyses.
 
 source("bdt.R")
+source("bdtPairWise.R")
