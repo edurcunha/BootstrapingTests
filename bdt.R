@@ -40,8 +40,18 @@ bdt <- function(x, y, ...) {
   g1 <- y[ x == g.lev[1] ] 
   g2 <- y[ x == g.lev[2] ] 
   
-  r1 <- sample(g1, ext.args[['rand']] * max(g.n), replace = TRUE) 
-  r2 <- sample(g2, ext.args[['rand']] * max(g.n), replace = TRUE) 
+  # r1 <- sample(g1, ext.args[['rand']] * max(g.n), replace = TRUE) 
+  # r2 <- sample(g2, ext.args[['rand']] * max(g.n), replace = TRUE) 
+  
+  r1 <- replicate( ext.args[['rand']],
+                   sample(g1, max(g.n), replace = TRUE), 
+                   simplify = F )
+  r1 <- do.call(c, r1)
+  
+  r2 <- replicate( ext.args[['rand']],
+                   sample(g2, max(g.n), replace = TRUE), 
+                   simplify = F )
+  r2 <- do.call(c, r2)
   
   g.diff <- r1 - r2
   mean.g.diff <- mean(g.diff)
@@ -53,4 +63,3 @@ bdt <- function(x, y, ...) {
   
 }
 
-# Comment
